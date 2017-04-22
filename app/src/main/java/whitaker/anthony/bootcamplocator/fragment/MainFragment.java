@@ -8,6 +8,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -47,9 +48,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     /** Standard zip code length for user location. Use constant for Development only. */
     public static final int ZIP_CODE_LENGTH = 5;
 
-
     private GoogleMap map;
     private MarkerOptions userMarker;
+    private LocationListFragment locationListFragment;
 
     public MainFragment() {
         // Required empty public constructor
@@ -80,6 +81,13 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        locationListFragment = (LocationListFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.container_locations_list);
+
+        if(locationListFragment == null) {
+            locationListFragment = LocationListFragment.newInstance();
+            getActivity().getSupportFragmentManager().beginTransaction().add(R.id.container_locations_list, locationListFragment).commit();
+        }
+
         final EditText zipCodeText = (EditText)view.findViewById(R.id.zipCodeText);
         zipCodeText.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -97,12 +105,15 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
                     dismissKeyboard(zipCodeText.getWindowToken());
 
+                    toggleListVisibility(true);
                     updateMapForZipCode(zipCode);
                     return true;
                 }
                 return false;
             }
         });
+
+        toggleListVisibility(false);
 
         return view;
     }
@@ -171,6 +182,14 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     .snippet(location.getAddress())
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_pin));
             map.addMarker(marker);
+        }
+    }
+
+    private void toggleListVisibility(boolean showList) {
+        if (showList) {
+            getActivity().getSupportFragmentManager().beginTransaction().show(locationListFragment).commit();
+        } else {
+            getActivity().getSupportFragmentManager().beginTransaction().hide(locationListFragment).commit();
         }
     }
 

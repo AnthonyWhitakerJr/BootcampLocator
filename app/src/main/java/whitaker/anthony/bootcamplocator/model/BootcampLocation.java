@@ -10,13 +10,13 @@ public class BootcampLocation {
     private LatLng latLng;
     private String title;
     private String address;
-    private String imageUrl;
+    private int imageId;
 
-    public BootcampLocation(LatLng latLng, String title, String address, String imageUrl) {
+    public BootcampLocation(LatLng latLng, String title, String address, int imageId) {
         this.latLng = latLng;
         this.title = title;
         this.address = address;
-        this.imageUrl = imageUrl;
+        this.imageId = imageId;
     }
 
     public LatLng getLatLng() {
@@ -31,7 +31,7 @@ public class BootcampLocation {
         return address;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public int getImageId() {
+        return imageId;
     }
 }
