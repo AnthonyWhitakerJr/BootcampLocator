@@ -53,20 +53,20 @@
                     map:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/editText"
+                    android:id="@+id/zipCodeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
                     android:layout_marginTop="8dp"
                     android:ems="10"
                     android:hint="@string/zip_hint"
                     android:inputType="number"
                     map:layout_constraintBottom_toBottomOf="parent"
                     map:layout_constraintLeft_toRightOf="@+id/imageButton"
-                    map:layout_constraintTop_toTopOf="parent"
                     map:layout_constraintRight_toLeftOf="@+id/imageButton2"
-                    android:layout_marginRight="8dp"
+                    map:layout_constraintTop_toTopOf="parent"
                     map:layout_constraintVertical_bias="0.444" />
 
                 <ImageButton
