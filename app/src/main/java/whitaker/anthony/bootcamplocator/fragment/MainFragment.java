@@ -1,8 +1,10 @@
 package whitaker.anthony.bootcamplocator.fragment;
 
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import whitaker.anthony.bootcamplocator.R;
+import whitaker.anthony.bootcamplocator.activity.MapsActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +26,11 @@ import whitaker.anthony.bootcamplocator.R;
  */
 public class MainFragment extends Fragment implements OnMapReadyCallback {
 
+    public static final String LOG_TAG = MainFragment.class.getSimpleName();
+
+
     private GoogleMap map;
+    private MarkerOptions userMarker;
 
     public MainFragment() {
         // Required empty public constructor
@@ -69,11 +76,16 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+    }
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    public void setUserMarker(LatLng latLng) {
+        if(userMarker == null) {
+            userMarker = new MarkerOptions().position(latLng).title("Current Location");
+            map.addMarker(userMarker);
+            Log.v(LOG_TAG, "Current location: " + latLng);
+        }
+
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
     }
 
 }
