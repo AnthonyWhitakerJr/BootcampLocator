@@ -13,11 +13,17 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import whitaker.anthony.bootcamplocator.R;
 import whitaker.anthony.bootcamplocator.activity.MapsActivity;
+import whitaker.anthony.bootcamplocator.model.BootcampLocation;
+import whitaker.anthony.bootcamplocator.service.DataService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -85,7 +91,21 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             Log.v(LOG_TAG, "Current location: " + latLng);
         }
 
+        updateMapForZipCode(92284);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+    }
+
+    private void updateMapForZipCode(int zipcode) {
+        List<BootcampLocation> locations = DataService.getSharedInstance().getBootcampLocationsWithin10Miles(zipcode);
+
+        for(BootcampLocation location : locations) {
+            MarkerOptions marker = new MarkerOptions()
+                    .position(location.getLatLng())
+                    .title(location.getTitle())
+                    .snippet(location.getAddress())
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_pin));
+            map.addMarker(marker);
+        }
     }
 
 }

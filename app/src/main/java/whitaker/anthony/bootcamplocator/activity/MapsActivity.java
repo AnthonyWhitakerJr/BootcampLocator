@@ -51,6 +51,7 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
     @Override
     public void onLocationChanged(Location location) {
         Log.v(LOG_TAG, "Lat:" + location.getLatitude() + "Long:" + location.getLongitude());
+//        mainFragment.setUserMarker(new LatLng(35.2795541, -120.6635333));
         mainFragment.setUserMarker(new LatLng(location.getLatitude(), location.getLongitude()));
     }
 
